@@ -13,12 +13,27 @@
 
 <script setup lang="ts">
 import { JobsSearch, JobsFilters } from "@/components";
-import { ref } from "vue";
+import { getAllJobs } from "@/services";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import type { JobsTypes } from "@/types";
+
+const { push } = useRouter();
 
 const isFullTime = ref<boolean>(false);
 const workPlace = ref<string>("");
+const jobs = ref<JobsTypes[]>([]);
 
 const submitJobSearch = (text: string) => {
-  console.log(text);
+  push({ name: "jobs", query: { search: text } });
 };
+onMounted(() => {
+  console.log(import.meta.env.VITE_BASE_URL);
+  const getJobs = async () => {
+    const data = await getAllJobs();
+    jobs.value = data.data;
+  };
+
+  getJobs();
+});
 </script>
