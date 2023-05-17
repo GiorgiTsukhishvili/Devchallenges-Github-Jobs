@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10 w-full max-w-[379px]">
+  <div class="w-full max-w-[379px]">
     <div>
       <div class="flex items-center gap-3">
         <input

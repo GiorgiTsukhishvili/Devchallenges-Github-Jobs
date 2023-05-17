@@ -14,7 +14,7 @@ export type JobsTypes = {
   job_is_remote: boolean;
   job_posted_at_timestamp: number;
   job_posted_at_datetime_utc: string;
-
+  job_country: string;
   job_highlights: {
     Qualifications: string[];
     Responsibilities: string[];

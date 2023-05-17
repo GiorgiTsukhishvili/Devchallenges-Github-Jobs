@@ -1,18 +1,23 @@
 <template>
   <div class="mt-8">
     <JobsSearch @submitSearch="submitJobSearch" />
-    <JobsFilters
-      @full-time="(e) => (isFullTime = e.target.value)"
-      @work-place="(e) => (workPlace = e.target.value)"
-      @location="(location: string) => workPlace = location"
-      :isFullTime="isFullTime"
-      :workPlace="workPlace"
-    />
+    <div class="xl:flex-row gap-8 mt-10 flex-col flex">
+      <JobsFilters
+        @full-time="(e) => (isFullTime = e.target.value)"
+        @work-place="(e) => (workPlace = e.target.value)"
+        @location="(location: string) => workPlace = location"
+        :isFullTime="isFullTime"
+        :workPlace="workPlace"
+      />
+      <div class="w-full flex flex-col gap-8">
+        <JobsDescription v-for="(job, i) in jobs" :key="i" :jobDetails="job" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { JobsSearch, JobsFilters } from "@/components";
+import { JobsSearch, JobsFilters, JobsDescription } from "@/components";
 import { getAllJobs } from "@/services";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -28,10 +33,10 @@ const submitJobSearch = (text: string) => {
   push({ name: "jobs", query: { search: text } });
 };
 onMounted(() => {
-  console.log(import.meta.env.VITE_BASE_URL);
   const getJobs = async () => {
     const data = await getAllJobs();
-    jobs.value = data.data;
+    jobs.value = data.data.data;
+    console.log(jobs.value);
   };
 
   getJobs();
