@@ -4,6 +4,7 @@
     <JobsFilters
       @full-time="(e) => (isFullTime = e.target.value)"
       @work-place="(e) => (workPlace = e.target.value)"
+      @location="(location: string) => workPlace = location"
       :isFullTime="isFullTime"
       :workPlace="workPlace"
     />

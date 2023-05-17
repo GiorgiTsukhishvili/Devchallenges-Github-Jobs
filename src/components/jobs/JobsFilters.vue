@@ -14,7 +14,18 @@
       <h1 class="uppercase text-slate-300 font-bold text-sm mt-8 mb-3">
         Location
       </h1>
-      <div class="w-full rounded-md bg-white h-12 shadow-md"></div>
+      <form
+        class="w-full rounded-md bg-white h-12 shadow-md flex items-center gap-4 pl-3"
+        @submit.prevent="emits('location', place)"
+      >
+        <EarthIcon />
+        <input
+          type="text"
+          v-model="place"
+          placeholder="City, state, zip code or country"
+          class="w-full h-full focus:ring-0 focus:outline-none focus:border-none placeholder:text-slate-300 pr-2"
+        />
+      </form>
       <div class="mt-6">
         <div
           v-for="(radioButton, i) in radioButtons"
@@ -29,9 +40,11 @@
             :checked="radioButton.value === workPlace"
             @input="(e) => emits('work-place', e)"
           />
-          <label :for="radioButton.name" class="text-sm font-medium">{{
-            radioButton.name
-          }}</label>
+          <label
+            :for="radioButton.name"
+            class="text-sm font-medium cursor-pointer"
+            >{{ radioButton.name }}</label
+          >
         </div>
       </div>
     </div>
@@ -39,9 +52,13 @@
 </template>
 
 <script setup lang="ts">
+import { EarthIcon } from "@/components";
 import { radioButtons } from "@/config";
+import { ref } from "vue";
 
 defineProps<{ isFullTime: boolean; workPlace: string }>();
 
-const emits = defineEmits(["full-time", "work-place"]);
+const emits = defineEmits(["full-time", "work-place", "location"]);
+
+const place = ref<string>("");
 </script>
