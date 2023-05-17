@@ -10,7 +10,11 @@
         :workPlace="workPlace"
       />
       <div class="w-full flex flex-col gap-8">
-        <JobsDescription v-for="(job, i) in jobs" :key="i" :jobDetails="job" />
+        <JobsDescription
+          v-for="(job, i) in filteredJobs"
+          :key="i"
+          :jobDetails="job"
+        />
       </div>
     </div>
   </div>
@@ -19,24 +23,37 @@
 <script setup lang="ts">
 import { JobsSearch, JobsFilters, JobsDescription } from "@/components";
 import { getAllJobs } from "@/services";
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import type { JobsTypes } from "@/types";
 
 const { push } = useRouter();
+const {
+  query: { search },
+} = useRoute();
 
 const isFullTime = ref<boolean>(false);
 const workPlace = ref<string>("");
 const jobs = ref<JobsTypes[]>([]);
 
+const filteredJobs = computed(() => {
+  if (isFullTime) {
+    return jobs.value.filter((el) => el.job_employment_type === "FULLTIME");
+  } else {
+    return jobs.value;
+  }
+});
+
 const submitJobSearch = (text: string) => {
   push({ name: "jobs", query: { search: text } });
 };
+
 onMounted(() => {
   const getJobs = async () => {
-    const data = await getAllJobs();
+    const data = search
+      ? await getAllJobs(search as string)
+      : await getAllJobs();
     jobs.value = data.data.data;
-    console.log(jobs.value);
   };
 
   getJobs();
