@@ -29,7 +29,7 @@
       </h1>
       <h1 class="flex items-center gap-2 text-slate-300 text-sm font-medium">
         <ClockIcon />
-        {{ calculateData }}
+        {{ date }}
       </h1>
     </div>
   </RouterLink>
@@ -37,23 +37,16 @@
 
 <script setup lang="ts">
 import { EarthIcon, ClockIcon } from "@/components";
+import { useCalculateDate } from "@/hooks";
 import type { JobsTypes } from "@/types";
 import { computed } from "vue";
 
 const props = defineProps<{ jobDetails: JobsTypes }>();
 
-const calculateData = computed(() => {
-  const time = Math.round(
-    (Date.now() - +new Date(props.jobDetails.job_posted_at_datetime_utc)) /
-      60000
+const date = computed(() => {
+  const { calculatedDate } = useCalculateDate(
+    props.jobDetails.job_posted_at_datetime_utc
   );
-
-  if (time < 60) {
-    return time + " minutes ago";
-  } else if (time < 1440) {
-    return Math.round(time / 60) + " hours ago";
-  } else {
-    return Math.round(time / 60 / 24) + " days ago";
-  }
+  return calculatedDate();
 });
 </script>
