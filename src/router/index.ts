@@ -5,7 +5,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: "/", name: "jobs", component: JobsView },
-    { path: "/job", name: "singleJob", component: SingleJobView },
+    { path: "/job/:id", name: "singleJob", component: SingleJobView },
   ],
 });
 

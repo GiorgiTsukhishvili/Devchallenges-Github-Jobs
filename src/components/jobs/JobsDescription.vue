@@ -1,5 +1,6 @@
 <template>
-  <div
+  <RouterLink
+    :to="{ name: 'singleJob', params: { id: jobDetails.job_id } }"
     class="bg-white w-full shadow-md h-28 rounded-md flex items-start md:items-center justify-between md:flex-row flex-col"
   >
     <div class="flex md:items-center items-start">
@@ -31,7 +32,7 @@
         {{ calculateData }}
       </h1>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <script setup lang="ts">
