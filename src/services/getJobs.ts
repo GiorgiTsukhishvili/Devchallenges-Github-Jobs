@@ -1,7 +1,7 @@
 import { axios } from "@/services";
 
-export const getAllJobs = (query: string = "Georgia") => {
-  return axios.get("/search", { params: { query } });
+export const getAllJobs = (query: string = "Web developer jobs") => {
+  return axios.get("/search", { params: { query, page: "1", num_pages: "5" } });
 };
 
 export const getSingleJobs = (job_id: string) => {

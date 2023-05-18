@@ -3,7 +3,7 @@
     <JobsSearch @submitSearch="submitJobSearch" />
     <div class="xl:flex-row gap-8 mt-10 flex-col flex">
       <JobsFilters
-        @full-time="(e) => (isFullTime = e.target.value)"
+        @full-time="(e) => (isFullTime = e.target.checked)"
         @work-place="(e) => (workPlace = e.target.value)"
         @location="(location: string) => workPlace = location"
         :isFullTime="isFullTime"
@@ -38,9 +38,15 @@ const jobs = ref<JobsTypes[]>([]);
 
 const filteredJobs = computed(() => {
   if (isFullTime) {
-    return jobs.value.filter((el) => el.job_employment_type === "FULLTIME");
+    return jobs.value
+      .filter((el) => el.job_employment_type === "FULLTIME")
+      .filter((el) =>
+        workPlace.value !== "" ? el.job_country === workPlace.value : true
+      );
   } else {
-    return jobs.value;
+    return jobs.value.filter((el) =>
+      workPlace.value !== "" ? el.job_country === workPlace.value : true
+    );
   }
 });
 
