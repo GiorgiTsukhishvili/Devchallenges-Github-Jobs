@@ -75,7 +75,7 @@ const {
   params: { id },
 } = useRoute();
 
-const { go } = useRouter();
+const { go, push } = useRouter();
 
 const jobDetails = ref<JobsTypes>();
 
@@ -91,8 +91,9 @@ onMounted(() => {
     try {
       const data = await getSingleJobs(id as string);
       jobDetails.value = data.data.data[0];
-      console.log(jobDetails.value?.job_description);
-    } catch (err) {}
+    } catch (err) {
+      push({ name: "404" });
+    }
   };
 
   getJobDetails();

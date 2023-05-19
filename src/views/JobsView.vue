@@ -64,10 +64,14 @@ const submitJobSearch = (text: string) => {
 
 onMounted(() => {
   const getJobs = async () => {
-    const data = search
-      ? await getAllJobs(search as string)
-      : await getAllJobs();
-    jobs.value = data.data.data;
+    try {
+      const data = search
+        ? await getAllJobs(search as string)
+        : await getAllJobs();
+      jobs.value = data.data.data;
+    } catch (err) {
+      push({ name: "404" });
+    }
   };
 
   getJobs();
