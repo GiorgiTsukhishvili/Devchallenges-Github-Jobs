@@ -9,19 +9,27 @@
         :isFullTime="isFullTime"
         :workPlace="workPlace"
       />
-      <div class="w-full flex flex-col gap-8">
+      <div class="w-full flex flex-col gap-8" v-if="filteredJobs.length > 0">
         <JobsDescription
           v-for="(job, i) in filteredJobs"
           :key="i"
           :jobDetails="job"
         />
       </div>
+      <div v-else class="w-full flex justify-center items-center relative">
+        <LoadingAnimation :mainPage="true" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { JobsSearch, JobsFilters, JobsDescription } from "@/components";
+import {
+  JobsSearch,
+  JobsFilters,
+  JobsDescription,
+  LoadingAnimation,
+} from "@/components";
 import { getAllJobs } from "@/services";
 import { onMounted, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";

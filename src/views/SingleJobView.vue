@@ -55,6 +55,7 @@
       </h1>
     </div>
   </div>
+  <LoadingAnimation v-else :mainPage="false" />
 </template>
 
 <script setup lang="ts">
@@ -62,7 +63,12 @@ import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import { getSingleJobs } from "@/services";
 import type { JobsTypes } from "@/types";
-import { ArrowLeftIcon, ClockIcon, EarthIcon } from "@/components";
+import {
+  ArrowLeftIcon,
+  ClockIcon,
+  EarthIcon,
+  LoadingAnimation,
+} from "@/components";
 import { useCalculateDate } from "@/hooks";
 
 const {
