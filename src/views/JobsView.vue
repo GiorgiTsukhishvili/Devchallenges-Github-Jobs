@@ -16,9 +16,18 @@
           :jobDetails="job"
         />
       </div>
-      <div v-else class="w-full flex justify-center items-center relative">
+      <div
+        v-else-if="filteredJobs.length === 0 && !error"
+        class="w-full flex justify-center items-center relative"
+      >
         <LoadingAnimation :mainPage="true" />
       </div>
+      <h1
+        v-if="error"
+        class="w-full flex justify-center items-center relative text-xl font-semibold"
+      >
+        Something Went Wrong Please Try again
+      </h1>
     </div>
   </div>
 </template>
@@ -43,6 +52,7 @@ const {
 const isFullTime = ref<boolean>(false);
 const workPlace = ref<string>("");
 const jobs = ref<JobsTypes[]>([]);
+const error = ref<boolean>(false);
 
 const filteredJobs = computed(() => {
   if (isFullTime) {
@@ -70,7 +80,7 @@ onMounted(() => {
         : await getAllJobs();
       jobs.value = data.data.data;
     } catch (err) {
-      push({ name: "404" });
+      error.value = true;
     }
   };
 
