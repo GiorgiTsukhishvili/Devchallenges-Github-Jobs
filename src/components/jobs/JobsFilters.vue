@@ -27,32 +27,20 @@
         />
       </form>
       <div class="mt-6">
-        <div
+        <RadioButton
           v-for="(radioButton, i) in radioButtons"
           :key="i"
-          class="flex items-center gap-3 mb-3"
-        >
-          <input
-            type="radio"
-            name="place"
-            :value="radioButton.value"
-            :id="radioButton.name"
-            :checked="radioButton.value === workPlace"
-            @input="(e) => emits('work-place', e)"
-          />
-          <label
-            :for="radioButton.name"
-            class="text-sm font-medium cursor-pointer"
-            >{{ radioButton.name }}</label
-          >
-        </div>
+          :radioButton="radioButton"
+          :workPlace="workPlace"
+          @workPlace="(e: Event) => emits('work-place', e)"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { EarthIcon } from "@/components";
+import { EarthIcon, RadioButton } from "@/components";
 import { radioButtons } from "@/config";
 import { ref } from "vue";
 
